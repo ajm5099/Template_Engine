@@ -3,10 +3,10 @@ const Employee = require("./Employee")
 
 class Engineer extends Employee {
     //in the constructor, include everything you are asking for, including what you are importing with super
-    constructor (name, id, email, github) {
+    constructor (name, id, email, gitHubUser) {
         //this is taking the name, ID and email directly from the employee class, and placing them here. You dont need to as kfor these again, because they are being transported here using super. However, you need to include them in the constructor.
         super (name, id, email);
-        this.github = github;
+        this.gitHubUser = gitHubUser;
     }
 
     getRole() {
@@ -14,8 +14,8 @@ class Engineer extends Employee {
     }
 
     getGithub() {
-        return this.github;
+        return this.gitHubUser;
     }
 }
 
-module.exports = Employee;
+module.exports = Engineer;
