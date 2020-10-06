@@ -1,3 +1,7 @@
+//===============================================================================
+// Global Variables
+//===============================================================================
+
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -11,25 +15,29 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 let answersArr = [];
 
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
+//===============================================================================
+// Questions to ask the user
+//===============================================================================
 
 const questions = [
     {
+        // 1: name
         type: "input",
         message: "What is the employees name?",
         name: "employeeName"
     }, {
+        // 2: email
         type: "input",
         message: "What is the employees email?",
         name: "employeeEmail"
     }, {
+        // 3: role
         type: "list",
         message: "What role is the employee?",
         name: "employeeRole",
-        choices: ["Employee", "Manager", "Engineer", "Intern"]
+        choices: ["Manager", "Engineer", "Intern"]
     }, {
+        // 4.1: Office number, only called if a manager is selected on question 3
         type: "input",
         message: "What is your office number?",
         name: "officeNumber",
@@ -37,6 +45,7 @@ const questions = [
             return answers.employeeRole === "Manager";
         }
     }, {
+        // 4.2: Github username, only called if a engineer is selected on question 3
         type: "input",
         message: "What is the employees Github username?",
         name: "github",
@@ -44,6 +53,7 @@ const questions = [
             return answers.employeeRole === "Engineer";
         }
     }, {
+        // 4.3: school, only called if intern is selected on question 3
         type: "input",
         message: "What school is the intern attending?",
         name: "school",
@@ -51,29 +61,37 @@ const questions = [
             return answers.employeeRole === "Intern";
         }
     }, {
+        //5: Loop, asking if user wants to add additional employees
         type: "confirm",
         message: "Would you like to add another employee? (hit enter for yes)",
         default: true,
         name: "askAgain",
     }
 ];
-    
 
+//===============================================================================
+// Functions to ask questions and write output
+//===============================================================================
 
 function ask() {
     inquirer.prompt(questions).then((answers) => {
         let person;
+        //Loop to determine selected role
+        console.log("answers", answers)
         if (answers.employeeRole === "Manager") {
-            person = new Manager(answers.name, Date.now(), answers.email, answers.officeNumber)
-        } else if (answers.employeeRole === "Employee") {
-            person = new Employee(answers.name, Date.now(), answers.email)
-        } //create for intern and engineer
-            
+            person = new Manager(answers.employeeName, Date.now(), answers.employeeEmail, answers.officeNumber)
+        } else if (answers.employeeRole === "Engineer") {
+            person = new Engineer(answers.employeeName, Date.now(), answers.employeeEmail, answers.github)
+        } else if (answers.employeeRole === "Intern") {
+            person = new Intern(answers.employeeName, Date.now(), answers.employeeEmail, answers.school)
+        }
+        //Loop to determine if user input questions should be run again from the beginning
         answersArr.push(person)
+        render(answersArr)
         if (answers.askAgain) {
             ask();
         } else {
-            console.log(answersArr);
+            console.log(person);
             return;
         }
     })
