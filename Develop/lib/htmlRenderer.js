@@ -1,12 +1,12 @@
 const path = require("path");
 const fs = require("fs");
-
+//looking for a templates folder
 const templatesDir = path.resolve(__dirname, "../templates");
-
+//expecting to be passed array of employees
 const render = employees => {
-  const html = [];
+  const html = []; //everything from below gets put into this array
 
-  //rendering data into the manager HTML template
+  //check if employee is a manager, and then run the manager function
   html.push(...employees
     .filter(employee => employee.getRole() === "Manager")
     .map(manager => renderManager(manager))
@@ -28,6 +28,7 @@ const render = employees => {
 
 const renderManager = manager => {
   let template = fs.readFileSync(path.resolve(templatesDir, "manager.html"), "utf8");
+  //find the section with "name" and replace it with the data we have
   template = replacePlaceholders(template, "name", manager.getName());
   template = replacePlaceholders(template, "role", manager.getRole());
   template = replacePlaceholders(template, "email", manager.getEmail());
@@ -56,6 +57,7 @@ const renderIntern = intern => {
   return template;
 };
 
+//we take all the cards generated above, and place them into main
 const renderMain = html => {
   const template = fs.readFileSync(path.resolve(templatesDir, "main.html"), "utf8");
   return replacePlaceholders(template, "team", html);

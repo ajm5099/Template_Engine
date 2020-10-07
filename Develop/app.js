@@ -79,19 +79,21 @@ function ask() {
         //Loop to determine selected role
         console.log("answers", answers)
         if (answers.employeeRole === "Manager") {
-            person = new Manager(answers.employeeName, Date.now(), answers.employeeEmail, answers.officeNumber)
+            person = new Manager(answers.employeeName, answers.employeeRole, answers.employeeEmail, Date.now() , answers.officeNumber)
         } else if (answers.employeeRole === "Engineer") {
-            person = new Engineer(answers.employeeName, Date.now(), answers.employeeEmail, answers.github)
+            person = new Engineer(answers.employeeName, answers.employeeRole, answers.employeeEmail, Date.now(),  answers.github)
         } else if (answers.employeeRole === "Intern") {
-            person = new Intern(answers.employeeName, Date.now(), answers.employeeEmail, answers.school)
+            person = new Intern(answers.employeeName, answers.employeeRole, answers.employeeEmail, Date.now(), answers.school)
         }
         //Loop to determine if user input questions should be run again from the beginning
         answersArr.push(person)
-        render(answersArr)
         if (answers.askAgain) {
             ask();
         } else {
-            console.log(person);
+            //after user has input all exployees desired, call the render function and pass it an array
+            console.log("This is the person array " + JSON.stringify(person));
+            console.log("This is the answers array: " + JSON.stringify(answersArr));
+            render(answersArr)
             return;
         }
     })
