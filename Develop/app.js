@@ -78,22 +78,25 @@ function ask() {
         let person;
         //Loop to determine selected role
         console.log("answers", answers)
+        //pass all answer data to manager object to create a new manager
         if (answers.employeeRole === "Manager") {
             person = new Manager(answers.employeeName, answers.employeeRole, answers.employeeEmail, Date.now() , answers.officeNumber)
-        } else if (answers.employeeRole === "Engineer") {
+        }
+        //pass all answer data to engineer object to create a new engineer 
+        else if (answers.employeeRole === "Engineer") {
             person = new Engineer(answers.employeeName, answers.employeeRole, answers.employeeEmail, Date.now(),  answers.github)
-        } else if (answers.employeeRole === "Intern") {
+        } 
+        //pass all answer data to intern object to create a new intern
+        else if (answers.employeeRole === "Intern") {
             person = new Intern(answers.employeeName, answers.employeeRole, answers.employeeEmail, Date.now(), answers.school)
         }
         //Loop to determine if user input questions should be run again from the beginning
         answersArr.push(person)
+        //question that will loop inquirer if answer is yes
         if (answers.askAgain) {
             ask();
         } else {
-            //after user has input all exployees desired, call the render function and pass it an array
-            console.log("This is the person array " + JSON.stringify(person));
-            console.log("This is the answers array: " + JSON.stringify(answersArr));
-            //render(answersArr);
+            //after user has input all exployees desired, Write the data so that the renderer function can recieve the data and run it.
             fs.writeFileSync(outputPath, render(answersArr),"utf-8");
             return;
         }
@@ -101,23 +104,3 @@ function ask() {
 }
 
 ask();
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
