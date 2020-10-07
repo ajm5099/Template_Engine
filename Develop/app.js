@@ -102,7 +102,6 @@ function ask() {
             ask();
         } else {
             //after user has input all exployees desired, Write the data so that the renderer function can recieve the data and run it.
-            console.log(JSON.stringify(answersArr));
             fs.writeFileSync(outputPath, render(answersArr),"utf-8");
             return;
         }
