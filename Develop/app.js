@@ -93,7 +93,8 @@ function ask() {
             //after user has input all exployees desired, call the render function and pass it an array
             console.log("This is the person array " + JSON.stringify(person));
             console.log("This is the answers array: " + JSON.stringify(answersArr));
-            render(answersArr)
+            //render(answersArr);
+            fs.writeFileSync(outputPath, render(answersArr),"utf-8");
             return;
         }
     })
