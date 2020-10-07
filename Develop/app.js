@@ -80,15 +80,15 @@ function ask() {
         console.log("answers", answers)
         //pass all answer data to manager object to create a new manager
         if (answers.employeeRole === "Manager") {
-            person = new Manager(answers.employeeName, answers.employeeRole, answers.employeeEmail, Date.now() , answers.officeNumber)
+            person = new Manager(answers.employeeName, Date.now(), answers.employeeEmail, answers.officeNumber)
         }
         //pass all answer data to engineer object to create a new engineer 
         else if (answers.employeeRole === "Engineer") {
-            person = new Engineer(answers.employeeName, answers.employeeRole, answers.employeeEmail, Date.now(),  answers.github)
+            person = new Engineer(answers.employeeName, Date.now(), answers.employeeEmail, answers.github)
         } 
         //pass all answer data to intern object to create a new intern
         else if (answers.employeeRole === "Intern") {
-            person = new Intern(answers.employeeName, answers.employeeRole, answers.employeeEmail, Date.now(), answers.school)
+            person = new Intern(answers.employeeName, Date.now(), answers.employeeEmail, answers.school)
         }
         //Loop to determine if user input questions should be run again from the beginning
         answersArr.push(person)
@@ -97,6 +97,7 @@ function ask() {
             ask();
         } else {
             //after user has input all exployees desired, Write the data so that the renderer function can recieve the data and run it.
+            console.log(JSON.stringify(answersArr));
             fs.writeFileSync(outputPath, render(answersArr),"utf-8");
             return;
         }
